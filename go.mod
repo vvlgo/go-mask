@@ -1,4 +1,4 @@
-module github.com/showa-93/go-mask
+module github.com/vvlgo/go-mask
 
 go 1.19
 
