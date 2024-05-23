@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/rand"
 	"testing"
+	"time"
 
 	"reflect"
 
@@ -2297,4 +2298,26 @@ func newMasker() *Masker {
 	m.RegisterMaskFloat64Func(MaskTypeRandom, m.MaskRandomFloat64)
 	m.RegisterMaskAnyFunc(MaskTypeZero, m.MaskZero)
 	return m
+}
+
+func TestTime(t *testing.T) {
+
+	type User struct {
+		Name      string
+		CreatedAt time.Time `json:"created_at"`
+	}
+
+	user := User{
+		Name:      "123",
+		CreatedAt: time.Now(),
+	}
+	maskUser, err := Mask(user)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%+v", maskUser)
+
+	// Output:
+	// {ID:123456 Name:***** Age:83 Address:{PostCode:}}
 }

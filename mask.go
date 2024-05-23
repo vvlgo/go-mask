@@ -452,6 +452,9 @@ func (m *Masker) mask(rv reflect.Value, tag string, mp reflect.Value) (reflect.V
 	case reflect.Ptr:
 		return m.maskPtr(rv, tag, mp)
 	case reflect.Struct:
+		if rv.Type().Name() == "Time" {
+			return rv, nil
+		}
 		return m.maskStruct(rv, tag, mp)
 	case reflect.Array:
 		return m.maskSlice(rv, tag, mp)
