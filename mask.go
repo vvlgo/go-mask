@@ -3,6 +3,7 @@ package mask
 import (
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
 	"math"
 	"math/rand"
 	"strconv"
@@ -443,6 +444,7 @@ func (m *Masker) Mask(target any) (ret any, err error) {
 }
 
 func (m *Masker) mask(rv reflect.Value, tag string, mp reflect.Value) (reflect.Value, error) {
+	fmt.Println(reflect.TypeOf(rv).Kind())
 	if ok, v, err := m.maskAnyValue(tag, rv); ok {
 		return v, err
 	}
@@ -452,7 +454,8 @@ func (m *Masker) mask(rv reflect.Value, tag string, mp reflect.Value) (reflect.V
 	case reflect.Ptr:
 		return m.maskPtr(rv, tag, mp)
 	case reflect.Struct:
-		if rv.Type().Name() == "Time" {
+		fmt.Println(rv.Type().Name())
+		if strings.Contains(strings.ToLower(rv.Type().Name()), "time") {
 			return rv, nil
 		}
 		return m.maskStruct(rv, tag, mp)
@@ -566,6 +569,8 @@ func (m *Masker) maskStruct(rv reflect.Value, tag string, mp reflect.Value) (ref
 			if err != nil {
 				return reflect.Value{}, err
 			}
+			fmt.Println(mp.Field(i).CanSet())
+			fmt.Println(rvf)
 			mp.Field(i).Set(rvf)
 		}
 	}

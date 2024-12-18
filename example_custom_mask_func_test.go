@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	mask "github.com/showa-93/go-mask"
+	mask "github.com/vvlgo/go-mask"
 )
 
 func init() {
